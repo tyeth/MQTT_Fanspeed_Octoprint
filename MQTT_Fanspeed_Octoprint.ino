@@ -7,6 +7,7 @@
 // // Replace with your network credentials
 #define WIFI_SSID "Wokwi-GUEST"
 #define WIFI_PASS ""
+#define PIN_NUMBER 15
 
 
 const char* mqttServer = "YOUR_MQTT_SERVER";
@@ -54,7 +55,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       // Set PWM duty cycle
     }
     if(duty != oldDuty){
-      analogWrite(15, duty);
+      analogWrite(PIN_NUMBER, duty);
       Serial.println("fanspeed PWM duty cycle for analogWrite:");
       Serial.println(duty);
       oldDuty = duty;
@@ -65,9 +66,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 void reconnect() {
   while (!client.connected()) {
+    Serial.println("Attempting MQTT connection...");
     if (client.connect("ESP32Client", mqttUsername, mqttPassword)) {
+      Serial.println("MQTT connected!");
       client.subscribe(MQTT_TOPIC);
     } else {
+      Serial.println(".");
       delay(1000);
     }
   }
@@ -84,6 +88,10 @@ void setup() {
   client.setBufferSize(16*1024);
   client.setServer(mqttServer, mqttPort);
   client.setCallback(callback);
+  Serial.println("fanspeed PWM duty cycle for analogWrite:");
+  Serial.println(oldDuty);
+  pinMode(PIN_NUMBER, OUTPUT);
+  analogWrite(PIN_NUMBER, oldDuty);
 }
 
 void loop() {
