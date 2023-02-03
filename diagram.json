@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "author": "Tyeth Gundry",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-s3-devkitc-1", "id": "ESP32", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -34.45,
+      "left": -144,
+      "attrs": { "value": "330" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 37.33,
+      "left": -121.8,
+      "attrs": { "color": "red" }
+    }
+  ],
+  "connections": [
+    [ "ESP32:TX", "$serialMonitor:RX", "", [] ],
+    [ "ESP32:RX", "$serialMonitor:TX", "", [] ],
+    [ "r1:1", "ESP32:GND.2", "green", [ "v0" ] ],
+    [ "ESP32:15", "led1:A", "green", [ "h0" ] ],
+    [ "led1:C", "r1:2", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
