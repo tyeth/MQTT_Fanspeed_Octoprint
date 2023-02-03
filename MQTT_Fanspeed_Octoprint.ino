@@ -60,6 +60,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
       Serial.println(duty);
       oldDuty = duty;
       //confirm update via mqtt? remote octoprint fan plugin? Why?
+    } else {
+      Serial.println("fanspeed unchanged.");
     }
   }
 }
